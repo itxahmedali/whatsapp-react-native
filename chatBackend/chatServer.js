@@ -1,10 +1,10 @@
-const path = require('path');
-const http = require('http');
+// const path = require('path');
 const express = require('express');
+const app = express();
+const http = require('http');
+const server = http.createServer(app);
 const socketio = require('socket.io');
 
-const app = express();
-const server = http.createServer(app);
 const io = socketio(server);
 
 // Set static folder
@@ -15,10 +15,7 @@ const io = socketio(server);
 
 
 io.on('connection', (socket) => {
-    socket.on('connect', () => {
-        console.log(socket.connected); // true
-      });
-    console.log("a user connected :D");
+  console.log("a user connected :D");
         socket.on('message', (message) => {
             const obj = JSON.stringify(message, socket.id)
             io.emit('message',`${obj}`);
@@ -60,4 +57,4 @@ io.on('connection', (socket) => {
 
 const PORT = 3000;
 
-server.listen(PORT, () => console.log(`Server running on port ${PORT} hello`));
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
